@@ -95,6 +95,7 @@ body {
 .content {
   margin-left: 240px;
   margin-top: 120px;
+  margin-bottom: 50px;
   padding: 2rem;
   flex: 1;
 }
@@ -148,7 +149,6 @@ body {
 
 /*******************DASHBOARD*********************/
 
-
 .inventory-management h2 , .price-list__title , .settlement__title{
   margin-bottom: 1rem;
   font-size: 1.5rem;
@@ -170,7 +170,7 @@ thead , .price-list__thead , .settlement__thead  {
 
 thead th , .price-list__thead th , .settlement__thead th {
   padding: 1rem;
-  text-align: left;
+  text-align: center  ;
 }
 
 tbody tr , .price-list__tbody tr , .settlement__tbody tr {
@@ -179,7 +179,7 @@ tbody tr , .price-list__tbody tr , .settlement__tbody tr {
 
 tbody td , .price-list__tbody td , .settlement__tbody td{
   padding: 1rem;
-  text-align: left;
+  text-align: center;
 }
 
 tbody tr:hover , .price-list__tbody tr:hover , .settlement__tbody tr:hover{
