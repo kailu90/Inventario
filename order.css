@@ -418,7 +418,7 @@ li {
 }
 
 .btn-container button:nth-child(1) {
-  background-color: orange;
+  background-color: gray;
   border: none;
 }
 
