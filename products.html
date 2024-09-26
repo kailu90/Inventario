@@ -1,64 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Products</title>
-  <link rel="shortcut icon" href="./Imagenes/logo_drive.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="shortcut icon" href="./Imagenes/logo_drive.png" type="image/x-icon">
 </head>
 <body>
-  <section class="dashboard-overview">
-    <h2>Resumen del Inventario</h2>
-    <div class="cards">
-        <div class="card">
-            <h3>Total de Productos</h3>
-            <p>120</p>
+  <header class="header">
+    <img src="./Imagenes/logo_drive_blanco.png" alt="logo drive">
+    <h1 class="header__title">Panel de Administración</h1>
+    <nav class="header__menu">
+        <ul class="header__list">
+            <li class="header__item"><a class="header__link" href="#">Perfil</a></li>
+            <li class="header__item"><a class="header__link" href="#">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+</header>
+
+<aside class="sidebar">
+    <nav class="sidebar__nav">
+        <ul class="sidebar__list">
+            <li class="sidebar__item"><a class="sidebar__link" href="./index.html">Pedidos</a></li>            
+            <li class="sidebar__item"><a class="sidebar__link" href="./products.html">Productos</a></li>
+            <!--<li class="sidebar__item"><a class="sidebar__link" href="#">Usuarios</a></li>-->
+            <li class="sidebar__item"><a class="sidebar__link" href="./liquidacion.html">Liquidación</a></li>
+            <li class="sidebar__item"><a class="sidebar__link" href="./listaPrecios.html">Lista de Precios</a></li>       
+        </ul>
+    </nav>
+</aside>
+
+<main class="content">
+    <section class="content__dashboard-overview dashboard-overview">
+        <h2 class="dashboard-overview__title">Resumen de productos</h2>
+        <div class="dashboard-overview__cards cards">
+            <div class="cards__card card">
+                <h3 class="card__title">Valor total productos</h3>
+                <p class="card__info" id="total-orders">0</p>
+            </div>
+            <div class="cards__card card">
+                <h3 class="card__title">Productos en Stock</h3>
+                <p class="card__info" id="incoming-orders">0</p>
+            </div>
+            <div class="cards__card card">
+                <h3 class="card__title">Productos agotados</h3>
+                <p class="card__info" id="sent-orders">0</p>
+            </div>
         </div>
-        <div class="card">
-            <h3>Productos en Stock</h3>
-            <p>80</p>
-        </div>
-        <div class="card">
-            <h3>Productos Agotados</h3>
-            <p>10</p>
-        </div>
-        <div class="card">
-            <h3>Pedidos Pendientes</h3>
-            <p>5</p>
-        </div>
-    </div>
-  </section>
-  
-  <section class="inventory-management">
-    <h2>Gestión de Productos</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Producto</th>
-                <th>Categoría</th>
-                <th>Stock</th>
-                <th>Precio</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Azúcar Blanca</td>
-                <td>Pizzas</td>
-                <td>20</td>
-                <td>$8.99</td>
-                <td><a href="#">Editar</a> | <a href="#">Eliminar</a></td>
-            </tr>
-            <tr>
-                <td>champiñones</td>
-                <td>Pizzas</td>
-                <td>15</td>
-                <td>$9.99</td>
-                <td><a href="#">Editar</a> | <a href="#">Eliminar</a></td>
-            </tr>
-            <!-- Más filas de productos -->
-        </tbody>
-    </table>
-  </section>
+    </section>
+
+    <section class="content__inventory-management inventory-management">
+        <h2 class="inventory-management__title">Gestión de Productos</h2>
+        <table class="inventory-management__table">
+            <thead class="inventory-management__thead">
+                <tr class="inventory-management__row">
+                    <th class="inventory-management__heading">NOMBRE PRODUCTO</th>
+                    <th class="inventory-management__heading">STOCK</th>
+                    <th class="inventory-management__heading">VALOR UNIDAD</th>
+                    <th class="inventory-management__heading">VALOR TOTAL</th>
+                </tr>
+            </thead>
+            <tbody class="inventory-management__tbody" id="ordersContainer">
+                <!-- <tr class="inventory-management__row">
+                    <td class="inventory-management__cell">Azúcar Blanca</td>
+                    <td class="inventory-management__cell">Pizzas</td>
+                    <td class="inventory-management__cell">20</td>
+                    <td class="inventory-management__cell">✅</td>
+                    <td class="inventory-management__cell">
+                        <a class="inventory-management__link" href="#">Editar</a> | 
+                        <a class="inventory-management__link" href="#">Eliminar</a>
+                    </td>
+                </tr>
+                <tr class="inventory-management__row">
+                    <td class="inventory-management__cell">champiñones</td>
+                    <td class="inventory-management__cell">Pizzas</td>
+                    <td class="inventory-management__cell">15</td>
+                    <td class="inventory-management__cell">❌</td>
+                    <td class="inventory-management__cell">
+                        <a class="inventory-management__link" href="#">Editar</a> | 
+                        <a class="inventory-management__link" href="#">Eliminar</a>
+                    </td>
+                </tr> -->
+            </tbody>
+        </table>
+        <button class="button"><a class="sidebar__link" href="./proveedores.html">ingresar producto</a></button>
+    </section>
+</main>
+
+<footer class="footer">
+    <p class="footer__text">&copy; 2024 DrivePizza. Todos los derechos reservados.</p>
+</footer>
+<script src="index.js"></script>
 </body>
 </html>

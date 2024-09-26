@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Inventario - DRIVE PIZZA</title>
+    <link rel="stylesheet" href="proveedores.css">
+    <link rel="shortcut icon" href="./Imagenes/logo_drive.png" type="image/x-icon">
+</head>
+
+<body>
+<section class="form-section">
+    <img src="./Imagenes/logo_drive.png" alt="logo drive">
+    <h2>Ingreso de Productos de Proveedores</h2>
+    <form class="product-form" action="submit_product.php" method="POST">
+        <div class="form-group">
+            <label for="product-name">Nombre del Producto:</label>
+            <select id="product-name" name="product-name" required>
+                <option value="" disabled selected>Selecciona un producto</option>
+                <option value="ATÚN">ATÚN</option>
+                <option value="AZUCAR BLANCA">AZUCAR BLANCA</option>
+                <option value="AZUCAR MORENA">AZUCAR MORENA</option>
+                <option value="CHAMPIÑONES">CHAMPIÑONES</option>
+                <option value="CHORIZO">CHORIZO</option>
+                <option value="ESPAGUETTI">ESPAGUETTI</option>
+                <option value="FETUCCINI">FETUCCINI</option>
+                <option value="HARINA">HARINA</option>
+                <option value="MASA x 140gr">MASA x 140gr</option>
+                <option value="MASA x 250gr">MASA x 250gr</option>
+                <option value="MASA x 350gr">MASA x 350gr</option>
+                <option value="MASA x 450gr">MASA x 450gr</option>
+                <option value="MASA x 700gr">MASA x 700gr</option>
+                <option value="NAPOLITANA">NAPOLITANA</option>
+                <option value="OREGANO">OREGANO</option>
+                <option value="PANELAS">PANELAS</option>
+                <option value="PARMESANO">PARMESANO</option>
+                <option value="PASTA LASAGNA">PASTA LASAGNA</option>
+                <option value="PASTA PENE">PASTA PENE</option>
+                <option value="PIÑA">PIÑA</option>
+                <option value="POLLO">POLLO</option>
+                <option value="POLLO ENSALADA">POLLO ENSALADA</option>
+                <option value="QUESO">QUESO</option>
+                <option value="QUESO CREMA">QUESO CREMA</option>
+                <option value="SAL">SAL</option>
+                <option value="SAL DE AJO">SAL DE AJO</option>
+                <option value="SALAMIS">SALAMIS</option>
+                <option value="ACEITE RIQUISIMO">ACEITE RIQUISIMO</option>
+                <option value="ACEITE SALOMON">ACEITE SALOMON</option>
+                <option value="MANTEQUILLA">MANTEQUILLA</option>
+                <option value="MARGARINA">MARGARINA</option>
+                <option value="PASTA DE TOMATE">PASTA DE TOMATE</option>
+                <option value="POLLO CRUDO">POLLO CRUDO</option>
+                <option value="PIMIENTA">PIMIENTA</option>
+                <option value="ALBAHACA">ALBAHACA</option>
+                <option value="TOMATE">TOMATE</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="quantity">Cantidad:</label>
+            <input type="number" id="quantity" name="quantity" min="1" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="unit">Unidad de Medida:</label>
+            <select id="unit" name="unit" required>
+                <option value="unidades">Unidades</option>
+                <option value="libras">libras</option>
+                <option value="frascos">frasco</option>
+                <option value="bloques">bloques</option>
+                <option value="bandejas">bandejas</option>
+                <option value="cajas">bandejas</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="arrival-date">Fecha de Ingreso:</label>
+            <input type="date" id="arrival-date" name="arrival-date" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="notes">Observaciones:</label>
+            <textarea id="notes" name="notes" rows="4"></textarea>
+        </div>
+        
+        <button type="submit">Registrar Producto</button>
+    </form>
+</section>
+</body>
