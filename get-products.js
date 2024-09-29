@@ -38,13 +38,38 @@ getProducts()
       const productName = document.createElement('td');
       productName.textContent = product.nombre;
 
-      const productStock = document.createElement('td');
-      productStock.textContent = product.stock;
+      const weight = document.createElement('td');
+      weight.textContent = product.peso;
 
       const productPrice = document.createElement('td');
       productPrice.textContent = product.precio;
 
-      row.append(productName, productStock, productPrice);
+      const category = document.createElement('td');
+      category.textContent = product.categoria;
+
+      const description = document.createElement('td');
+      description.textContent = product.descripcion;
+
+      const productStock = document.createElement('td');
+      productStock.textContent = product.stock;
+
+      const unit = document.createElement('td');
+      unit.textContent = product.unidad;
+
+      const buttonsContainer = document.createElement('td');
+
+      const editButton = document.createElement('button');
+      editButton.textContent = 'Editar';
+
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Eliminar';
+
+      buttonsContainer.append(editButton, deleteButton);
+
+      const total = document.createElement('td');
+      total.textContent = product.total;
+
+      row.append(productName, weight, productPrice, category, description, productStock, unit, total, buttonsContainer);
 
       table.append(row);
     });
