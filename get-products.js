@@ -56,6 +56,9 @@ getProducts()
       const unit = document.createElement('td');
       unit.textContent = product.unidad;
 
+      const total = document.createElement('td');
+      total.textContent = product.total;
+
       const buttonsContainer = document.createElement('td');
 
       const editButton = document.createElement('button');
@@ -66,8 +69,7 @@ getProducts()
 
       buttonsContainer.append(editButton, deleteButton);
 
-      const total = document.createElement('td');
-      total.textContent = product.total;
+      
 
       row.append(productName, weight, productPrice, category, description, productStock, unit, total, buttonsContainer);
 
