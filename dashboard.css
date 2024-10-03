@@ -154,6 +154,14 @@ body {
 
 /*******************DASHBOARD*********************/
 
+
+.inventory-management__title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
 .inventory-management h2 , .price-list__title , .settlement__title{
   margin-bottom: 1rem;
   font-size: 1.5rem;
