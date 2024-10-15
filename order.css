@@ -391,6 +391,7 @@ li {
   text-align: center;
   border-collapse: collapse;
   table-layout: fixed;
+  font-size: 16px;
 }
 
 .car_product_list li:nth-child(1) , .car_product_list li:nth-child(2)  {
