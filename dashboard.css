@@ -154,6 +154,11 @@ body {
 
 /*******************DASHBOARD*********************/
 
+.content__inventory-management select {
+  border-radius: 10px;
+}
+
+
 
 .inventory-management__title-container {
   display: flex;
