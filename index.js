@@ -3,6 +3,7 @@ const totalOrdersCounter = document.getElementById('total-orders');
 const incomingOrdersCounter = document.getElementById('incoming-orders');
 const deliveredOrdersCounter = document.getElementById('sent-orders');
 const undeliveredOrdersCounter = document.getElementById('undelivered-orders');
+const sortSelect = document.getElementById('sort');
 let viewOrder;
 let orders = [];
 
@@ -134,7 +135,25 @@ ordersList.addEventListener('change', async function (event) {
       
     }
   }
-})
+});
+
+sortSelect.addEventListener('change', function (event) {
+  const [column, direction ] = event.target.value.split('-');
+  const rows = Array.from(ordersList.rows);
+
+  rows.sort((a, b) => {
+    let aValue = parseInt(a.cells[column].textContent);
+    let bValue = parseInt(b.cells[column].textContent);
+
+    if (column == 0) {
+      return direction === 'asc' ?
+        aValue - bValue :
+        bValue - aValue;
+    }  
+  });
+
+  rows.forEach(row => ordersList.appendChild(row));
+});
 
 async function updateStateOrder(orderId, state) {
   try {
