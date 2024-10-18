@@ -92,6 +92,9 @@ getOrders('https://api-pizzeria.vercel.app/api/v1/orders')
       row.append(orderNumber, deliveryDate, sede, state, anchorsContainer, orderValue, totalOrderValue);
 
       ordersList.append(row);
+      const rows = Array.from(ordersList.rows);
+
+      sortOrders(rows, '0', 'desc');
     });
 
     totalOrdersCounter.textContent = orders.length;
@@ -141,7 +144,11 @@ sortSelect.addEventListener('change', function (event) {
   const [column, direction ] = event.target.value.split('-');
   const rows = Array.from(ordersList.rows);
 
-  rows.sort((a, b) => {
+  sortOrders(rows, column, direction);
+});
+
+function sortOrders(orders, column, direction) {
+  orders.sort((a, b) => {
     let aValue = parseInt(a.cells[column].textContent);
     let bValue = parseInt(b.cells[column].textContent);
 
@@ -152,9 +159,8 @@ sortSelect.addEventListener('change', function (event) {
     }  
   });
 
-  rows.forEach(row => ordersList.appendChild(row));
-  console.log(rows);
-});
+  orders.forEach(row => ordersList.appendChild(row));
+}
 
 async function updateStateOrder(orderId, state) {
   try {
