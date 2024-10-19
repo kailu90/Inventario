@@ -1,6 +1,6 @@
 const ordersList = document.getElementById('ordersContainer');
 const totalOrdersCounter = document.getElementById('total-orders');
-const incomingOrdersCounter = document.getElementById('incoming-orders');
+const paidOrdersCounter = document.getElementById('paid-orders');
 const deliveredOrdersCounter = document.getElementById('sent-orders');
 const undeliveredOrdersCounter = document.getElementById('undelivered-orders');
 const sortSelect = document.getElementById('sort');
@@ -56,8 +56,6 @@ getOrders('https://api-pizzeria.vercel.app/api/v1/orders')
       liquidadoOption.textContent = 'Liquidado';
       if (order[1].ESTADO === 'Entregado') {
         stateSelect.append(entregadoOption,
-          pendienteOption,
-          enviadoOption,
           liquidadoOption);
       } else if (order[1].ESTADO === 'Enviado') {
         stateSelect.append(enviadoOption, pendienteOption,
@@ -68,7 +66,7 @@ getOrders('https://api-pizzeria.vercel.app/api/v1/orders')
           entregadoOption,
           liquidadoOption);
         } else if (order[1].ESTADO === 'Liquidado') {
-          stateSelect.append(liquidadoOption, pendienteOption, enviadoOption, entregadoOption);
+          stateSelect.append(liquidadoOption);
         }
       state.appendChild(stateSelect);
 
@@ -99,13 +97,17 @@ getOrders('https://api-pizzeria.vercel.app/api/v1/orders')
       sortOrders(rows, '0', 'desc');
     });
 
-    totalOrdersCounter.textContent = orders.length;
+    const undeliveredOrders = orders.filter(order => order[1].ESTADO === 'Pendiente');
+    undeliveredOrdersCounter.textContent = undeliveredOrders.length > 0 ? undeliveredOrders.length : '0';
     
-    const deliveredOrders = orders.filter(order => order[1].ESTADO === 'enviado');
+    const deliveredOrders = orders.filter(order => order[1].ESTADO === 'Entregado');
     deliveredOrdersCounter.textContent = deliveredOrders.length > 0 ? deliveredOrders.length : '0';
     
-    const undeliveredOrders = orders.filter(order => order[1].ESTADO === 'pendiente');
-    undeliveredOrdersCounter.textContent = undeliveredOrders.length > 0 ? undeliveredOrders.length : '0';
+    const paidOrders = orders.filter(order => order[1].ESTADO === 'Liquidado');
+    paidOrdersCounter.textContent = paidOrders.length > 0 ? paidOrders.length : '0';
+    
+    totalOrdersCounter.textContent = orders.length;
+
     localStorage.setItem('orders', JSON.stringify(data));
   })
   .catch(error => console.error('Error:', error));
@@ -245,9 +247,17 @@ ordersList.addEventListener('change', async function (event) {
       const row = event.target.closest('tr');
       const orderId = row.querySelector('.order-id').textContent;
       const response = await updateStateOrder(orderId, state);
-      console.log(response);
+      if (response) {
+        if (state === 'Entregado') {
+          for (let i = event.target.options.length - 1; i >= 0; i--) {
+            if (event.target.options[i].textContent !== 'Entregado' && event.target.options[i].textContent !== 'Liquidado') {
+              event.target.options.remove(i);
+            }
+          }
+        }
+      }
     } catch (error) {
-      
+      console.log(error);
     }
   }
 });
