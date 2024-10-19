@@ -76,10 +76,12 @@ getOrders('https://api-pizzeria.vercel.app/api/v1/orders')
 
       viewOrder = document.createElement('a');
       viewOrder.textContent = "Ver";
+      viewOrder.classList = "Ver-link";
       viewOrder.href = './order.html';
 
       const print = document.createElement('a');
       print.textContent = " Imprimir";
+      print.classList = "ImprimirHiden";
 
       anchorsContainer.append(viewOrder, "|", print);
 
@@ -108,8 +110,118 @@ getOrders('https://api-pizzeria.vercel.app/api/v1/orders')
   })
   .catch(error => console.error('Error:', error));
   
+
+
 ordersList.addEventListener("click", function (event) {
-  if (event.target.matches("a")) {
+
+
+
+  // función para imprimir desde botón imprimir de Dashboard sin ver contenido
+
+  event.preventDefault();
+
+  const row = event.target.closest("tr");
+  const tdId = row.querySelector(".order-id");
+  const tdPrint = row.querySelector(".ImprimirHiden");
+
+  if (event.target.matches(".ImprimirHiden")){
+    console.log(tdPrint.textContent)
+    
+      // Crear el iframe oculto
+      const iframe = document.createElement('iframe');
+      iframe.id = 'hiddenIframe';
+      document.body.appendChild(iframe);
+  
+      // Escribir el contenido a imprimir en el iframe
+      const doc = iframe.contentWindow.document;
+      doc.open();
+  
+      const dataOrders = JSON.parse(localStorage.getItem("orders"));
+  
+      dataOrders.forEach(order=>{ 
+       
+        if (order["ID PEDIDO"] === tdId.textContent) {
+          console.log(order)
+          doc.write(`
+            
+            <header class="car_header">        
+                <img src="./Imagenes/logo_drive.png" alt="logo drive pizza">
+                <h1>PEDIDO SEDE</h1>
+            </header>
+            <form class="car_container">
+            <div class="car_data_container">        
+                <div class="car_data_branch">
+                    <p>SEDE</p>
+                    <p id="sede-name">${order.SEDE}</p>
+                </div>  
+                <div class="car_data_date">
+                    <p>FECHA</p>
+                    <p id="delibery-date">${order["FECHA ENTREGA"]}</p>
+                </div>  
+            </div>
+            <table class="car_product_list">
+                    <thead class="table_head">
+                        <tr>
+                            <th>PRODUCTO</th>
+                            <th>CANTIDAD</th>
+                            <th>VALOR</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table_body" id="table-body">
+
+                      ${order.products.map(product => {
+                        return `<tr>
+                            <td>${product.name}</td>
+                            <td>${product.quantity}</td>
+                            <td>${product.totalPrice}</td>
+                        </tr>`
+
+                      }
+                      )}
+                    </tbody>
+            </table>
+            <div class="car_data_observation">
+                <p>OBSERVACIÓN:</p>
+                <p id="comment">${order.OBSERVACIONES}</p>          
+            </div>  
+            <div class="car_total" id="total">
+                Total Productos: <span id="total-amount">${order.products.length}</span>
+            </div>
+            <div class="car_total" id="valor-neto">
+                Valor Neto: <span id="valor-neto-amount">${order.netCost}</span>
+            </div>
+            <div class="car_total" id="valor-servicio">
+                Valor con servicio: <span id="valor-servicio-amount">${order.costWithService}</span>
+            </div>
+            </form>
+            `);
+        }
+      })
+    
+      doc.close();
+  
+      // Esperar un momento para asegurar que el contenido esté cargado
+      iframe.contentWindow.focus();
+  
+      // Imprimir el contenido del iframe
+      iframe.contentWindow.print();
+  
+      // Eliminar el iframe después de la impresión para limpiar el DOM
+      document.body.removeChild(iframe);
+  
+  }
+
+
+
+
+
+
+
+
+
+  // funcion para ver la orden de cada pedido
+
+  if (event.target.matches(".Ver-link")) {
     event.preventDefault();
     const row = event.target.closest("tr");
     const tdId = row.querySelector(".order-id");

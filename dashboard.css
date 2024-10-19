@@ -150,6 +150,14 @@ body {
 
 
 
+/***Ocultar Iframe para imprimir sin ver contenido desde Dashboard**/
+
+#hiddenIframe {
+  display: none;
+}
+
+
+
 
 
 /*******************DASHBOARD*********************/
@@ -212,6 +220,7 @@ tbody td a , .price-list__tbody td a , .settlement__tbody td a{
   color: #3498db;
   text-decoration: none;
   margin-right: 0.5rem;
+  cursor: pointer;
 }
 
 .btn-agregar-stock {
@@ -281,3 +290,201 @@ tbody td a , .price-list__tbody td a , .settlement__tbody td a{
 
 
 
+
+
+
+
+
+
+
+/*********************ESTILOS DE IMPRESION OCULTA*******************/
+
+.car_header{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px 20px;
+  border-bottom: 2px solid gray ;    
+}
+
+.car_header h1 {
+  display: flex;
+  align-items:end;
+  font-size: 30px;
+  margin-top: 20px;
+}
+
+.car_header img {
+  display: flex;
+  align-items:end;
+  width: 200px;
+}
+
+.car_container {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  padding: 20px 0;
+  margin: 0 auto;
+  font-size: 16px;
+}
+
+.car_data_branch , .car_data_date {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+  margin: 0 auto;    
+}
+
+.car_data_branch p , .car_data_date p {
+  display: flex;
+  justify-content: center;
+  margin: 5px auto;
+}
+
+.car_data_branch p:nth-child(1) , .car_data_date p:nth-child(1) {
+  font-weight: bold;
+}
+
+.car_container button {
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+  max-width: 400px;
+  margin: 10px auto;
+  background-color: green;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.car_container button:nth-child(3) {
+  background-color: grey;
+}
+
+.table_head th {
+  width: max-content;
+  padding: 10px;
+  border-bottom: 1px solid black;
+}
+
+.table_body td {
+ padding: 5px;
+ width: max-content;
+ border-bottom: 1px solid black;
+}
+
+.table_body tr td:nth-child(2){
+  font-weight: bold;
+}
+
+.car_data_observation {
+  text-align: center; 
+  padding: 20px; 
+  border: 1px solid black; 
+  margin: 20px 0;
+  width: 80%;
+  max-width: 400px; 
+  margin-left: auto; 
+  margin-right: auto; 
+  border-radius: 8px; 
+}
+
+.car_data_observation p:nth-child(1) {
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.car_product_list {
+  color: black;
+  width: 90%;
+  margin: 20px auto;
+  max-width: 400px;
+  text-align: center;
+  border-collapse: collapse;
+  table-layout: fixed;
+ 
+}
+
+.car_product_list li:nth-child(1) , .car_product_list li:nth-child(2)  {
+  font-weight: bold;
+}
+
+.car_total {
+  display: flex;
+  font-weight: bold;
+  width: 80%;
+  justify-content: center;
+  gap: 50px;
+  margin: 5px auto;
+}
+
+.btn-container {
+  display: flex;
+  max-width: 400px;
+  margin: 10px auto 30px auto;
+  gap: 30px;
+}
+
+.btn-container button {
+  padding: 5px;
+}
+
+.btn-container button:nth-child(1) {
+  background-color: gray;
+  border: none;
+}
+
+.btn-container button:nth-child(2) {
+  background-color: green;
+  border: none;
+}
+
+.car_container button:hover {
+  filter: brightness(0.7);
+}
+
+@media (max-width: 900px) {
+  .car_container {
+      font-size: 12px;
+  }
+
+  .car_product {
+      height: 20px;
+      padding: 0px;
+  }
+}
+
+@media (max-width: 800px) {
+  .car_header {
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+  }
+
+  .car_header h1 {
+      margin: 20px 0 0 0;
+      font-size: 30px;
+  }
+
+  .car_header img {
+      width: 150px;
+  }
+  
+  .car_container {
+      padding: 0px;
+  }
+
+  .btn-container {
+      flex-direction: column;
+      gap: 10px;
+  }
+
+  .car_container button {
+      height: 30px;
+  }     
+}
