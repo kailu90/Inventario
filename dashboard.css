@@ -157,6 +157,17 @@ body {
 }
 
 
+/***Estilos para poder imprimir en letra más grande en impresora térmica**/
+
+@media print {
+  body {
+    width: 80mm; /* O ajusta el ancho según sea necesario */
+    font-size: 16px !important;
+  }
+}
+
+
+
 
 
 
