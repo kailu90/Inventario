@@ -281,12 +281,12 @@ function sortOrders(orders, column, direction) {
     }  
   });
 
-  orders.forEach(row => ordersList.appendChild(row));
-}
+  rows.forEach(row => ordersList.appendChild(row));
+};
 
 async function updateStateOrder(orderId, state) {
   try {
-    const response = await fetch(`https://api-pizzeria.vercel.app/api/v1/orders/${orderId}`, {
+    const response = await fetch(`api-pizzeria.vercel.app/api/v1/orders/${orderId}`, {
       method: 'PATCH',
       body: JSON.stringify({
         ESTADO: state,
