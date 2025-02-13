@@ -30,6 +30,7 @@ async function getOrders(url) {
 getOrders('https://api-pizzeria.vercel.app/api/v1/orders')
   .then(data => {
     orders = Object.entries(data);
+    console.log(orders);
     orders.forEach(order => {
       const row = document.createElement('tr');
 
@@ -44,31 +45,7 @@ getOrders('https://api-pizzeria.vercel.app/api/v1/orders')
       sede.textContent = order[1].SEDE;
 
       const state = document.createElement('td');
-      const stateSelect = document.createElement('select');
-      stateSelect.classList = 'state-select';
-      const pendienteOption = document.createElement('option');
-      const enviadoOption = document.createElement('option');
-      const entregadoOption = document.createElement('option');
-      const liquidadoOption = document.createElement('option');
-      pendienteOption.textContent = 'Pendiente';
-      enviadoOption.textContent = 'Enviado';
-      entregadoOption.textContent = 'Entregado';
-      liquidadoOption.textContent = 'Liquidado';
-      if (order[1].ESTADO === 'Entregado') {
-        stateSelect.append(entregadoOption,
-          liquidadoOption);
-      } else if (order[1].ESTADO === 'Enviado') {
-        stateSelect.append(enviadoOption, pendienteOption,
-          entregadoOption,
-          liquidadoOption);
-        }else if (order[1].ESTADO === 'Pendiente') {
-          stateSelect.append(pendienteOption, enviadoOption, 
-          entregadoOption,
-          liquidadoOption);
-        } else if (order[1].ESTADO === 'Liquidado') {
-          stateSelect.append(liquidadoOption);
-        }
-      state.appendChild(stateSelect);
+      state.textContent = order[1].ESTADO;
 
       const anchorsContainer = document.createElement('td');
 
@@ -239,65 +216,4 @@ ordersList.addEventListener("click", function (event) {
     window.location.href = href;
   }
 });
-
-ordersList.addEventListener('change', async function (event) {
-  if (event.target.options) {
-    try {
-      const state = event.target.value;
-      const row = event.target.closest('tr');
-      const orderId = row.querySelector('.order-id').textContent;
-      const response = await updateStateOrder(orderId, state);
-      if (response) {
-        if (state === 'Entregado') {
-          for (let i = event.target.options.length - 1; i >= 0; i--) {
-            if (event.target.options[i].textContent !== 'Entregado' && event.target.options[i].textContent !== 'Liquidado') {
-              event.target.options.remove(i);
-            }
-          }
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-});
-
-sortSelect.addEventListener('change', function (event) {
-  const [column, direction ] = event.target.value.split('-');
-  const rows = Array.from(ordersList.rows);
-
-  sortOrders(rows, column, direction);
-});
-
-function sortOrders(orders, column, direction) {
-  orders.sort((a, b) => {
-    let aValue = parseInt(a.cells[column].textContent);
-    let bValue = parseInt(b.cells[column].textContent);
-
-    if (column == 0) {
-      return direction === 'asc' ?
-        aValue - bValue :
-        bValue - aValue;
-    }  
-  });
-
-  rows.forEach(row => ordersList.appendChild(row));
-};
-
-async function updateStateOrder(orderId, state) {
-  try {
-    const response = await fetch(`api-pizzeria.vercel.app/api/v1/orders/${orderId}`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        ESTADO: state,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
-    return response;
-  } catch (error) {
-    return error;
-  }
-
-}
+  
