@@ -1,3 +1,8 @@
+//importaciones necesarias de firestone
+import { db } from './firebaseConfig.js';
+import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
 const ordersList = document.getElementById('ordersContainer');
 const totalOrdersCounter = document.getElementById('total-orders');
 const paidOrdersCounter = document.getElementById('paid-orders');
@@ -5,89 +10,112 @@ const deliveredOrdersCounter = document.getElementById('sent-orders');
 const undeliveredOrdersCounter = document.getElementById('undelivered-orders');
 const sortSelect = document.getElementById('sort');
 let viewOrder;
-let orders = [];
 
-async function getOrders(url) {
-  try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+
+
+// Tu función que usaremos para obtener todos los pedidos
+async function fetchOrdersFromFirestore() {
+    try {
+        const ordersCollection = collection(db, 'Pedidos');
+        const q = query(ordersCollection, orderBy("ID PEDIDO", "desc"));
+        const querySnapshot = await getDocs(q);
+
+        const orders = [];
+        querySnapshot.forEach((doc) => {
+            // Firestore usa el ID del documento, que es diferente al "ID PEDIDO" que tienes
+            // Asegúrate de guardar ambos para referencia
+            orders.push({
+                docId: doc.id,
+                ...doc.data()
+            });
+        });
+
+        return orders;
+    } catch (e) {
+        console.error("Error al obtener los pedidos: ", e);
+        return [];
     }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error al conectar con la API:', error);
-  }
 }
 
-getOrders('https://api-pizzeria.vercel.app/api/v1/orders')
-  .then(data => {
-    orders = Object.entries(data);
-    console.log(orders);
+// Lógica principal
+let orders = [];
+
+async function initializeOrders() {
+    // Llamamos a la nueva función de Firestore
+    orders = await fetchOrdersFromFirestore();
+
+    // Ahora, usa el array 'orders' para llenar la tabla
     orders.forEach(order => {
-      const row = document.createElement('tr');
+        const row = document.createElement('tr');
 
-      const orderNumber = document.createElement('td');
-      orderNumber.textContent = order[1]['ID PEDIDO'];
-      orderNumber.classList = 'order-id';
-      
-      const deliveryDate = document.createElement('td');
-      deliveryDate.textContent = order[1]['FECHA ENTREGA'];
-      
-      const sede = document.createElement('td');
-      sede.textContent = order[1].SEDE;
+        const orderNumber = document.createElement('td');
+        orderNumber.textContent = order['ID PEDIDO'];
+        orderNumber.classList = 'order-id';
 
-      const state = document.createElement('td');
-      state.textContent = order[1].ESTADO;
+        const deliveryDate = document.createElement('td');
+        deliveryDate.textContent = order['FECHA ENTREGA'];
 
-      const anchorsContainer = document.createElement('td');
+        const sede = document.createElement('td');
+        sede.textContent = order.SEDE;
 
-      viewOrder = document.createElement('a');
-      viewOrder.textContent = "Ver";
-      viewOrder.classList = "Ver-link";
-      viewOrder.href = './order.html';
+        const state = document.createElement('td');
+        state.textContent = order.ESTADO;
 
-      const print = document.createElement('a');
-      print.textContent = " Imprimir";
-      print.classList = "ImprimirHiden";
+        // ... el resto del código para crear las celdas ...
+        const anchorsContainer = document.createElement('td');
+        const viewOrder = document.createElement('a');
+        viewOrder.textContent = "Ver";
+        viewOrder.classList = "Ver-link";
+        viewOrder.href = './order.html';
 
-      anchorsContainer.append(viewOrder, "|", print);
+        const print = document.createElement('a');
+        print.textContent = " Imprimir";
+        print.classList = "ImprimirHiden";
 
-      const orderValue = document.createElement('td');
-      orderValue.textContent = order[1].netCost;
+        anchorsContainer.append(viewOrder, "|", print);
 
-      const totalOrderValue = document.createElement('td');
-      totalOrderValue.textContent = order[1].costWithService;
+        const orderValue = document.createElement('td');
+        orderValue.textContent = order.netCost;
 
-      row.append(orderNumber, deliveryDate, sede, state, anchorsContainer, orderValue, totalOrderValue);
+        const totalOrderValue = document.createElement('td');
+        totalOrderValue.textContent = order.costWithService;
 
-      ordersList.append(row);
-      const rows = Array.from(ordersList.rows);
-
-      sortOrders(rows, '0', 'desc');
+        row.append(orderNumber, deliveryDate, sede, state, anchorsContainer, orderValue, totalOrderValue);
+        ordersList.append(row);
     });
+    
+    // ... tu lógica de contadores y localStorage ...
+    
+    // Aquí puedes llamar a tu función de ordenamiento si la necesitas
+    const rows = Array.from(ordersList.rows);
+    sortOrders(rows, '0', 'desc');
 
-    const undeliveredOrders = orders.filter(order => order[1].ESTADO === 'Pendiente');
+    const undeliveredOrders = orders.filter(order => order.ESTADO === 'Pendiente');
     undeliveredOrdersCounter.textContent = undeliveredOrders.length > 0 ? undeliveredOrders.length : '0';
     
-    const deliveredOrders = orders.filter(order => order[1].ESTADO === 'Entregado');
+    const deliveredOrders = orders.filter(order => order.ESTADO === 'Entregado');
     deliveredOrdersCounter.textContent = deliveredOrders.length > 0 ? deliveredOrders.length : '0';
     
-    const paidOrders = orders.filter(order => order[1].ESTADO === 'Liquidado');
+    const paidOrders = orders.filter(order => order.ESTADO === 'Liquidado');
     paidOrdersCounter.textContent = paidOrders.length > 0 ? paidOrders.length : '0';
     
     totalOrdersCounter.textContent = orders.length;
 
-    localStorage.setItem('orders', JSON.stringify(data));
-  })
-  .catch(error => console.error('Error:', error));
+    // Puedes remover esta línea si no necesitas guardar los pedidos en localStorage
+    localStorage.setItem('orders', JSON.stringify(orders));
+}
+
+initializeOrders();
+
+
+
+
+
+
+
+
+
   
 
 
